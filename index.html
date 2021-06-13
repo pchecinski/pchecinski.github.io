@@ -1,1 +1,90 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The greatest sign-in form</title>
+    <style>
+        .letter {
+            float: left;
+        }
+        .none {
+            clear: both;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sign up</h1>
+    <b>Enter your name</b><br/>
+    <input type="range" min="1" max="10" value="3" id="letters-input">
+    <p>number of letters: <span id='letters'>3</span></p>
+    <input type="button" value="go" id='letters-button'><br/>
+    <div id='placeholder'>
+    </div>
+    <div id='nextDiv' class='none'>
+        <input type="button" value="next" id='next'><br/>
+    </div>
+
+    <script>
+        const LETTERS = 'zyxwvutsrqponmlkjihgfedcba';
+    
+        let slider = document.querySelector('#letters-input');
+        let letters = document.querySelector('#letters');
+        let button = document.querySelector('#letters-button');
+        let placeholder = document.querySelector('#placeholder');
+        let nextDiv = document.querySelector('#nextDiv');
+        let next = document.querySelector('#next');
+    
+        slider.addEventListener('input', () => {
+            letters.innerHTML = slider.value;
+        });
+        button.addEventListener('click', () => {
+            for (let i = 0; i < slider.value; i++) {
+                let div = document.createElement('div');
+                let input = document.createElement('input');
+                let br = document.createElement('br');
+                let span = document.createElement('span');
+                let checkbox = document.createElement('input');
+    
+                div.className = 'letter';
+    
+                input.type = 'range';
+                input.min = 0;
+                input.max = LETTERS.length - 1;
+                input.value = Math.floor(Math.random() * input.max);
+    
+                span.innerText = LETTERS[input.value];
+    
+                checkbox.type = 'checkbox';
+    
+                input.addEventListener('input', () => {
+                    span.innerText = LETTERS[input.value];
+                });
+    
+                checkbox.addEventListener('click', () => {
+                    span.innerText = checkbox.checked ? span.innerText.toUpperCase() : span.innerText.toLowerCase();
+                });
+    
+                div.appendChild(input);
+                div.appendChild(br);
+                div.appendChild(span);
+                div.appendChild(checkbox);
+                placeholder.appendChild(div);
+            }
+            nextDiv.style.visibility = 'visible';
+        });
+        next.addEventListener('click', () => {
+            let elements = document.querySelectorAll('#placeholder span');
+            let name = '';
+
+            elements.forEach(element => {
+                name += element.innerText;
+            });
+
+            alert(`Welcome ${name}!`)
+        });
+    </script>
+</body>
+</html>
